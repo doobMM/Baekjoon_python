@@ -1,0 +1,423 @@
+
+# 사칙연산
+A, B = map(int, input().split())
+print(A + B)
+print(A - B)
+print(A * B)
+print(A // B)  # 몫
+print(A % B)   # 나머지
+
+# 놀라쪄염
+username = input()
+print(username + "??!")
+
+# 불기연도
+y = int(input())
+seogi_year = y - 543
+print(seogi_year)
+
+
+"""
+곱셈 과정
+"""
+# 입력 받기
+num1 = int(input())
+num2 = int(input())
+
+# 각 자리수 분리
+hundreds = num2 // 100
+tens = (num2 // 10) % 10
+units = num2 % 10
+
+# 각 단계의 결과 계산
+step1 = num1 * units
+step2 = num1 * tens
+step3 = num1 * hundreds
+
+# 최종 결과 계산
+result = num1 * num2
+
+# 출력
+print(step1)
+print(step2)
+print(step3)
+print(result)
+
+
+
+"""
+고양이 야옹 (실패)
+"""
+print(r"\    /\\")
+print(r" )  ( ')")
+print(r"(  /  )")
+print(r" \(__)|")
+
+
+"""
+왈왈왈
+"""
+print("|\_/|")
+print("|q p|   /}")
+print("( 0 )\"\"\"\\")
+print("|\"^\"`    |")
+print("||_/=\\\\__|")
+
+
+#1330
+A, B = map(int, input().split())
+
+if A > B:
+    print(">")
+elif A < B:
+    print("<")
+else:
+    print("==")
+
+
+#윤년
+year = int(input())
+
+if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
+    print(1)
+else:
+    print(0)
+
+
+#사분면 인
+x = int(input())
+y = int(input())
+
+if x > 0 and y > 0:
+    print(1)
+elif x < 0 and y > 0:
+    print(2)
+elif x < 0 and y < 0:
+    print(3)
+elif x > 0 and y < 0:
+    print(4)
+
+
+#45분 빠르게
+H, M = map(int, input().split())
+
+if M >= 45:
+    M -= 45
+else:
+    M += 15  # M = M + 60 - 45 (60 - 45 = 15)
+    if H == 0:
+        H = 23
+    else:
+        H -= 1
+
+print(H, M)
+# print(str(H).zfill(2), str(M).zfill(2))
+
+
+
+"""
+요리 시간 계산
+"""
+A, B = map(int, input().split())
+C = int(input())
+
+# 총 분 계산
+total_minutes = A * 60 + B + C
+
+# 종료 시각 계산
+end_hour = (total_minutes // 60) % 24
+end_minute = total_minutes % 60
+
+print(end_hour, end_minute)
+
+
+
+# 주사위 상금 계산
+a, b, c = map(int, input().split())
+
+if a == b == c:
+    prize = 10000 + a * 1000
+elif a == b or a == c:
+    prize = 1000 + a * 100
+elif b == c:
+    prize = 1000 + b * 100
+else:
+    prize = max(a, b, c) * 100
+
+print(prize)
+
+
+#구구단
+N = int(input())
+
+for i in range(1, 10):
+    print(f"{N} * {i} = {N * i}")
+
+
+#더해버려!
+T = int(input())
+
+for _ in range(T):
+    A, B = map(int, input().split())
+    print(A + B)
+"""
+1. 먼저 테스트 케이스의 개수 T를 입력받습니다.
+2. for문이 T번 반복되면서 각 테스트 케이스마다 A와 B를 입력받고, 그 합을 계산한 후 바로 출력합니다.
+"""
+
+
+
+#반복문 On
+n = int(input())
+total = 0
+
+for i in range(1, n + 1):
+    total += i
+
+print(total)
+
+# 반복문 Off
+n = int(input())
+total = n * (n + 1) // 2
+print(total)
+
+
+
+
+#덤탱이 체킹
+# 영수증에 적힌 총 금액
+X = int(input())
+
+# 구매한 물건의 종류의 수
+N = int(input())
+
+# 구매한 물건의 가격과 개수로 계산한 총 금액
+calculated_total = 0
+
+for _ in range(N):
+    a, b = map(int, input().split())
+    calculated_total += a * b
+
+
+
+# 총 금액과 비교
+if calculated_total == X:
+    print("Yes")
+else:
+    print("No")
+
+
+
+
+#문자열 반복
+N = int(input())
+
+num_of_longs = N // 4
+result = "long " * num_of_longs + "int"
+print(result)
+
+
+
+#빠른 입출력 1번 옵션
+import sys
+input = sys.stdin.readline
+output = sys.stdout.write
+
+T = int(input().strip())
+
+results = []
+for _ in range(T):
+    A, B = map(int, input().strip().split())
+    results.append(A + B)
+
+output("\n".join(map(str, results)) + "\n")
+"""
+.strip() 메서드는 문자열의 시작과 끝에서 공백(스페이스, 탭, 개행 문자 등)을 제거하는 역할을 합니다.
+Python의 input() 함수나 sys.stdin.readline() 함수는 입력된 문자열의 끝에 개행 문자(\n)를 포함합니다. 이 개행 문자를 제거하지 않으면, 데이터를 처리하는 데 문제가 생길 수 있습니다.
+예를 들어, sys.stdin.readline()으로 입력을 받을 때, 개행 문자가 포함된 문자열이 반환되기 때문에, 이를 제거해야 할 경우 .strip()을 사용합니다:
+"""
+
+
+#빠른 입출력 2번 옵션
+import sys
+input = sys.stdin.readline
+output = sys.stdout.write
+
+T = int(input().strip())
+
+for _ in range(T):
+    A, B = map(int, input().strip().split())
+    output(str(A + B) + "\n")
+"""
+반복문을 사용하여 각 테스트 케이스마다 두 정수 A와 B를 입력받고, 그 합을 계산한 후 바로 출력합니다.
+output(str(A + B) + "\n")을 사용하여 각 합을 문자열로 변환한 후 줄 바꿈 문자 \n을 추가해 출력 스트림에 바로 씁니다.
+"""
+
+
+#A+B - 7
+T = int(input())
+
+for i in range(1, T + 1):
+    A, B = map(int, input().split())
+    print(f"Case #{i}: {A + B}")
+
+#A+B - 8
+T = int(input())
+
+for i in range(1, T + 1):
+    A, B = map(int, input().split())
+    print(f"Case #{i}: {A} + {B} = {A + B}")
+
+#밤하늘의 펄
+N = int(input())
+
+for i in range(1, N + 1):
+    print('*' * i)
+
+#루이비통 뤼비똥
+N = int(input())
+
+for i in range(1, N + 1):
+    print(' ' * (N - i) + '*' * i)
+
+
+#현재에 머물러, 영영 살 생각 말고
+while True:
+    A, B = map(int, input().split())
+    if A == 0 and B == 0:
+        break
+    print(A + B)
+
+
+#끝없이계속될것처럼
+import sys
+
+for line in sys.stdin:
+    A, B = map(int, line.split())
+    print(A + B)
+
+
+
+
+
+
+
+
+
+"""
+1차원 배열
+"""
+
+# 입력
+import sys
+input = sys.stdin.read
+data = input().split()
+
+# N 입력
+N = int(data[0])
+
+# 정수들을 리스트로 변환
+numbers = list(map(int, data[1:N+1]))
+
+# 찾으려는 정수 v
+v = int(data[N+1])
+
+# numbers 리스트에서 v의 개수를 세기
+count = numbers.count(v)
+
+# 출력
+print(count)
+
+
+
+
+import sys
+input = sys.stdin.read
+
+# 입력 받기
+data = input().split()
+N = int(data[0])  # 수열 A의 개수
+X = int(data[1])  # 비교할 정수 X
+A = list(map(int, data[2:N+2]))  # 수열 A
+
+# X보다 작은 수를 모아 출력하기
+result = []
+for num in A:
+    if num < X:
+        result.append(num)
+
+# 결과 출력
+print(' '.join(map(str, result)))
+
+
+
+
+"""
+최대 최소 찾기
+"""
+import sys
+input = sys.stdin.read
+
+# 입력 받기
+data = input().split()
+N = int(data[0])  # 정수의 개수 N
+numbers = list(map(int, data[1:N+1]))  # N개의 정수를 리스트로 저장
+
+# 최솟값과 최댓값 찾기
+min_num = min(numbers)
+max_num = max(numbers)
+
+# 결과 출력
+print(min_num, max_num)
+
+
+
+"""
+최댓값 탐색
+"""
+# 아홉 개의 자연수를 입력받음
+numbers = []
+for i in range(9):
+    numbers.append(int(input()))
+
+# 최댓값과 그 위치 구하기
+max_value = max(numbers)
+max_index = numbers.index(max_value) + 1  # 인덱스는 0부터 시작하므로 +1 해줌
+
+# 결과 출력
+print(max_value)
+print(max_index)
+
+
+
+
+"""
+바구니 공넣기
+입력
+5 4
+1 2 3
+3 4 4
+1 4 1
+2 2 2
+
+ 출력
+1 2 1 1 0'
+"""
+import sys
+input = sys.stdin.read
+
+# 입력 받기
+data = input().splitlines()
+N, M = map(int, data[0].split())
+
+# 바구니 초기화
+baskets = [0] * N
+
+# 공을 넣는 방법 수행
+for i in range(1, M+1):
+    i, j, k = map(int, data[i].split())
+    for idx in range(i-1, j):
+        baskets[idx] = k
+
+# 결과 출력
+print(' '.join(map(str, baskets)))
