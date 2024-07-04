@@ -1,0 +1,510 @@
+def convert_to_decimal(N, B):
+    return int(N, B)  # 각 자리의 값을 B의 거듭제곱과 곱하여 합산.
+
+# 입력을 받습니다.
+N, B = input().strip().split()
+B = int(B)
+
+# B진법 수 N을 10진법으로 변환하여 출력합니다.
+decimal_value = convert_to_decimal(N, B)
+print(decimal_value)
+
+
+
+def convert_to_base(N, B):
+    digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    result = ""
+    
+    while N > 0:
+        remainder = N % B
+        result = digits[remainder] + result
+        N //= B
+    
+    return result
+
+# 입력을 받습니다.
+N, B = map(int, input().strip().split())
+
+# 10진법 수 N을 B진법으로 변환하여 출력합니다.
+print(convert_to_base(N, B))
+"""
+N이 자연수라는 조건이 없다면
+    if N == 0:
+        return "0"
+라는 코드를 convert_to_base에 넣는 것이 좋다.
+"""
+
+
+
+
+def calculate_coins(cents):
+    quarters = cents // 25
+    cents %= 25
+    
+    dimes = cents // 10
+    cents %= 10
+    
+    nickels = cents // 5
+    cents %= 5
+    
+    pennies = cents
+    
+    return quarters, dimes, nickels, pennies
+
+# 입력을 받습니다.
+T = int(input())
+test_cases = [int(input()) for _ in range(T)]
+
+# 각 테스트 케이스에 대해 필요한 동전의 개수를 계산하여 출력합니다.
+for cents in test_cases:
+    quarters, dimes, nickels, pennies = calculate_coins(cents)
+    print(quarters, dimes, nickels, pennies)
+
+
+
+
+
+def calculate_points(N):
+    points = 2  # 초기에는 각 변에 2개의 점이 있습니다.
+    for _ in range(N):
+        points = points * 2 - 1
+    return points * points
+
+# 입력을 받습니다.
+N = int(input().strip())
+
+# 과정을 N번 거친 후 점의 수를 계산하여 출력합니다.
+print(calculate_points(N))
+
+
+
+
+"""
+중심 방에서 시작하여 각 계층별로 방의 최대 번호를 계산합니다.
+목표 방 번호가 포함된 계층을 찾을 때까지 계층을 증가시키며 반복합니다.
+목표 방까지의 최소 방 수를 출력합니다.
+"""
+def find_min_steps(N):
+    if N == 1:
+        return 1
+    
+    steps = 1
+    max_room_in_layer = 1
+    
+    while max_room_in_layer < N:
+        max_room_in_layer += 6 * steps
+        steps += 1
+    
+    return steps
+
+# 입력을 받습니다.
+N = int(input().strip())
+
+# 중앙 1에서 N번 방까지 최소 개수의 방을 지나는 수를 계산하여 출력합니다.
+print(find_min_steps(N))
+
+
+
+
+
+
+"""
+각 계단에는 그 계단 번호만큼의 분수가 있으며, 이를 통해 몇 번째 계단에 해당하는지를 찾기 위해 n은 1씩 더하고, X는 그 계단에 있는 분수의 개수(n)만큼 빼줍니다.
+각 계단에서 분자의 값과 분모의 값의 합은 그 계단의 번호보다 1 큽니다.
+
+홀수 층(n)에서는 분자가 큰 값에서 시작해서 1까지 내려오고, 분모는 1에서 n까지 올라갑니다. 
+짝수 층(n)에서는 분자가 1에서 시작해서 n까지 올라가고, 분모는 n에서 1까지 내려갑니다. 
+이를 바탕으로 각 층에서의 분수를 다음과 같이 계산할 수 있습니다:
+
+홀수 층: 분자 = (n - X + 1), 분모 = X
+짝수 층: 분자 = X, 분모 = (n - X + 1)
+"""
+def find_fraction(X):
+    n = 1
+    while X > n:
+        X -= n
+        n += 1
+
+    if n % 2 == 0:
+        numerator = X
+        denominator = n - X + 1
+    else:
+        numerator = n - X + 1
+        denominator = X
+
+    return f"{numerator}/{denominator}"
+
+# 입력을 받습니다.
+X = int(input().strip())
+
+# X번째 분수를 계산하여 출력합니다.
+print(find_fraction(X))
+
+
+
+
+
+# 달팽아 힘내렴
+import math
+
+def days_to_reach_top(A, B, V):
+    # 달팽이가 마지막 날 정상에 도달할 때 미끄러지지 않으므로 (V - A)까지 올라가는 데 걸리는 날 계산
+    # 그 후 하루를 더해 정상에 도달하는 날을 계산
+    return math.ceil((V - A) / (A - B)) + 1
+
+# 입력을 받습니다.
+A, B, V = map(int, input().strip().split())
+
+# 며칠이 걸리는지 계산하여 출력합니다.
+print(days_to_reach_top(A, B, V))
+
+
+
+
+
+# 배수 약수
+def determine_relationship(a, b):
+    if b % a == 0:
+        return "factor"
+    elif a % b == 0:
+        return "multiple"
+    else:
+        return "neither"
+
+while True:
+    # 입력을 받습니다.
+    a, b = map(int, input().strip().split())
+    
+    # 종료 조건
+    if a == 0 and b == 0:
+        break
+    
+    # 관계를 판단하여 출력합니다.
+    print(determine_relationship(a, b))
+
+
+
+
+
+def find_kth_divisor(N, K):
+    divisors = []
+    
+    # 1부터 N까지의 약수를 찾음
+    for i in range(1, N + 1):
+        if N % i == 0:
+            divisors.append(i)
+    
+    # K번째 약수가 있는지 확인
+    if len(divisors) >= K:
+        return divisors[K - 1]
+    else:
+        return 0
+
+# 입력을 받습니다.
+N, K = map(int, input().strip().split())
+
+# N의 약수들 중 K번째로 작은 수를 찾고 출력합니다.
+print(find_kth_divisor(N, K))
+
+
+
+
+
+
+# 완전수 판별
+def is_perfect_number(n):
+    divisors = [i for i in range(1, n) if n % i == 0]
+    if sum(divisors) == n:
+        return f"{n} = {' + '.join(map(str, divisors))}"
+    else:
+        return f"{n} is NOT perfect."
+
+# 입력을 받습니다.
+while True:
+    n = int(input().strip())
+    if n == -1:
+        break
+    print(is_perfect_number(n))
+"""
+ divisors 리스트에는 자동으로 int형 데이터가 저장됩니다. sum 함수는 int형 데이터에 대해서만 계산됩니다.
+"""
+
+
+
+
+
+# 소수 개수 판별
+# is_prime 함수는 주어진 수가 소수인지 여부를 판별합니다.
+def is_prime(num):
+    if num <= 1:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+# count_primes 함수는 주어진 리스트에서 소수의 개수를 계산합니다.
+def count_primes(numbers):
+    prime_count = 0
+    for num in numbers:
+        if is_prime(num):
+            prime_count += 1
+    return prime_count
+
+# 입력을 받습니다.
+N = int(input().strip())
+numbers = list(map(int, input().strip().split()))
+
+# 주어진 수들 중 소수의 개수를 계산하여 출력합니다.
+print(count_primes(numbers))
+
+
+
+
+
+def is_prime(num):
+    if num <= 1:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+#  함수는 M 이상 N 이하의 수 중 소수를 찾아 리스트로 반환합니다.
+def find_primes_in_range(M, N):
+    primes = [num for num in range(M, N + 1) if is_prime(num)]
+    return primes
+
+# 입력을 받습니다.
+M = int(input().strip())
+N = int(input().strip())
+
+# M 이상 N 이하의 소수를 찾습니다.
+primes = find_primes_in_range(M, N)
+
+if primes: 
+    # 소수들의 합과 최솟값을 출력합니다.
+    print(sum(primes))
+    print(min(primes))
+else:
+    # 소수가 없는 경우 -1을 출력합니다.
+    print(-1)
+
+
+
+
+
+# 소인수분해 결과 출력
+def prime_factors(N):
+    factors = []
+    # 2로 나누어 떨어지는 경우
+    while N % 2 == 0:
+        factors.append(2)
+        N //= 2
+
+    # 3부터 루트 N까지의 홀수로 나누어 떨어지는 경우
+    for i in range(3, int(N**0.5) + 1, 2):
+        while N % i == 0:
+            factors.append(i)
+            N //= i
+
+    # N이 소수인 경우
+    if N > 2:
+        factors.append(N)
+    
+    return factors
+
+# 입력을 받습니다.
+N = int(input().strip())
+
+# N의 소인수분해 결과를 출력합니다.
+if N > 1:
+    factors = prime_factors(N)
+    for factor in factors:
+        print(factor)
+"""
+만약 N이 소수라면 어떤 약수에 의해서도 갱신되지 않으므로 마지막에 N이 소수인지를 확인합니다.
+N이 2인 경우는 while 루프에서 처리되므로 문제 없습니다.
+"""
+
+
+
+
+
+# 입력을 받습니다.
+A = int(input().strip())
+B = int(input().strip())
+
+# 직사각형의 넓이를 계산합니다.
+area = A * B
+
+# 결과를 출력합니다.
+print(area)
+
+
+
+
+
+# 입력을 받습니다.
+x, y, w, h = map(int, input().strip().split())
+
+# 경계선까지의 거리의 최솟값을 계산합니다.
+min_distance = min(x, y, w - x, h - y)
+
+# 결과를 출력합니다.
+print(min_distance)
+"""
+1 ≤ x ≤ w-1
+1 ≤ y ≤ h-1
+라는 제한 조건이 있어서, 좌하단까지의 거리인 x와 y도 고려한다.
+이때, 직사각형의 좌하단 꼭짓점은 (0, 0), 우상단 꼭짓점은 (w, h)에 있다.
+"""
+
+
+
+
+# 네 번째 점을 찾는 함수
+def find_fourth_point(points):
+    # x와 y 좌표를 각각 추출
+    x_coords = [point[0] for point in points]
+    y_coords = [point[1] for point in points]
+    
+    # 고유한 x와 y 좌표 찾기
+    unique_x = [x for x in x_coords if x_coords.count(x) == 1][0]
+    unique_y = [y for y in y_coords if y_coords.count(y) == 1][0]
+    
+    return unique_x, unique_y
+
+# 입력 읽기
+points = []
+for _ in range(3):
+    x, y = map(int, input().strip().split())
+    points.append((x, y))
+
+# 네 번째 점 찾기
+fourth_point = find_fourth_point(points)
+
+# 결과 출력
+print(f"{fourth_point[0]} {fourth_point[1]}")
+"""
+point는 points 리스트의 각 요소로, 튜플(tuple) 자료형입니다. 
+points 리스트는 세 점의 좌표를 담고 있으며, 각 점의 좌표는 (x, y) 형식의 튜플로 저장됩니다.
+/
+[0]을 생략하면 문제가 발생할 수 있습니다. 
+[x for x in x_coords if x_coords.count(x) == 1]는 리스트를 반환하기 때문에, unique_x에 리스트가 저장됩니다. 
+그러나 우리는 리스트가 아닌 리스트의 첫 번째 요소를 필요로 하므로 [0]을 사용해 리스트의 첫 번째 요소를 선택해야 합니다.
+하지만 unique_x의 최대 길이는 1일 수밖에 없습니다.
+/
+find_fourth_point 함수는 튜플 (unique_x, unique_y)를 반환합니다. 따라서 반환된 값 fourth_point는 튜플 자료형이 됩니다. 
+튜플은 리스트와 비슷하게 인덱싱을 통해 요소에 접근할 수 있습니다.
+"""
+
+
+# 입력
+n = int(input().strip())
+
+# 둘레 계산
+perimeter = 4 * n
+
+# 결과 출력
+print(perimeter)
+
+
+
+
+# 6.25 전쟁 토지분쟁
+# 입력 읽기
+n = int(input().strip())
+
+# 점의 좌표를 저장할 리스트
+points = []
+
+for _ in range(n):
+    x, y = map(int, input().strip().split())
+    points.append((x, y))
+
+# x 좌표와 y 좌표의 최솟값과 최댓값 찾기
+min_x = min(point[0] for point in points)
+max_x = max(point[0] for point in points)
+min_y = min(point[1] for point in points)
+max_y = max(point[1] for point in points)
+
+# 직사각형 넓이 계산
+width = max_x - min_x
+height = max_y - min_y
+area = width * height
+
+# 결과 출력
+print(area)
+
+
+
+
+
+# 삼각형 판별
+# 각도 입력 받기
+angle1 = int(input().strip())
+angle2 = int(input().strip())
+angle3 = int(input().strip())
+
+# 세 각의 합 계산
+angle_sum = angle1 + angle2 + angle3
+
+# 삼각형 종류 판별
+if angle_sum != 180:
+    print("Error")
+elif angle1 == 60 and angle2 == 60 and angle3 == 60:
+    print("Equilateral")
+elif angle1 == angle2 or angle2 == angle3 or angle1 == angle3:
+    print("Isosceles")
+else:
+    print("Scalene")
+
+
+
+
+
+
+while True:
+    # 입력 받기
+    a, b, c = map(int, input().strip().split())
+    
+    # 종료 조건
+    if a == 0 and b == 0 and c == 0:
+        break
+    
+    # 삼각형 유효성 검사
+    sides = sorted([a, b, c])
+    if sides[0] + sides[1] <= sides[2]:
+        print("Invalid")
+    else:
+        if a == b == c:
+            print("Equilateral")
+        elif a == b or b == c or a == c:
+            print("Isosceles")
+        else:
+            print("Scalene")
+"""
+sorted 함수는 주어진 리스트 [a, b, c]를 오름차순으로 정렬합니다.
+리스트 [a, b, c]는 함수 호출 시 즉석에서 정의된 리스트입니다.
+"""
+
+
+
+
+# 삼각형의 둘레 최대화
+# 입력 받기
+a, b, c = map(int, input().strip().split())
+
+# 세 변을 정렬
+sides = sorted([a, b, c])
+
+# 가장 큰 변을 줄여서 삼각형 조건을 만족시키기
+if sides[0] + sides[1] <= sides[2]:
+    sides[2] = sides[0] + sides[1] - 1
+
+# 최대 둘레 계산
+max_perimeter = sum(sides)
+
+# 결과 출력
+print(max_perimeter)
