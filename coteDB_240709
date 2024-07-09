@@ -1,0 +1,586 @@
+def check_cards(n_cards, m_queries):
+    # 상근이가 가지고 있는 숫자 카드를 set으로 저장
+    card_set = set(n_cards)
+    
+    # 조회할 숫자들이 card_set에 있는지 확인
+    result = [1 if query in card_set else 0 for query in m_queries]
+    
+    # 결과 출력
+    return result
+
+# 입력 받기
+N = int(input().strip())
+n_cards = list(map(int, input().strip().split()))
+M = int(input().strip())
+m_queries = list(map(int, input().strip().split()))
+
+# 카드 체크 후 결과 출력
+result = check_cards(n_cards, m_queries)
+print(' '.join(map(str, result)))
+"""
+n_cards를 set으로 변환한 이유는 특정 숫자가 상근이의 카드에 있는지 빠르게 확인하기 위해서입니다. 리스트를 그대로 사용하면 각 숫자를 확인할 때마다 
+리스트 전체를 검색해야 하므로 시간 복잡도가 𝑂(𝑀×𝑁)이 됩니다. 그러나 set을 사용하면 각 숫자에 대해 상수 시간 
+𝑂(1) 안에 확인할 수 있어 전체 시간 복잡도가 𝑂(𝑀)로 줄어듭니다.
+
+만약 n_cards를 set으로 변환하지 않는다면, 각 조회할 숫자에 대해 n_cards 리스트 전체를 검색해야 하므로 for문을 2개 써야 할 수 있습니다. 
+이렇게 하면 시간 복잡도가 O(M×N)가 되어 성능이 저하됩니다.
+"""
+
+
+
+
+def count_included_strings(S, queries):
+    # 집합 S를 set으로 변환
+    string_set = set(S)
+    
+    # 포함된 문자열 개수를 세기
+    count = sum(1 for query in queries if query in string_set)
+    
+    return count
+
+# 입력 받기
+N, M = map(int, input().strip().split())
+S = [input().strip() for _ in range(N)]
+queries = [input().strip() for _ in range(M)]
+
+# 포함된 문자열 개수 출력
+result = count_included_strings(S, queries)
+print(result)
+"""
+ queries는 리스트이고, string_set는 set이지만 for query in queries if query in string_set라는 조건문은 
+리스트의 각 요소가 set에 포함되어 있는지를 잘 확인할 수 있습니다. 이는 Python에서 지원하는 정상적인 비교 방법입니다.
+
+set의 조회 시간 복잡도는 평균적으로 O(1)이기 때문에, 리스트를 사용하는 것보다 훨씬 빠르게 특정 문자열이 포함되어 있는지 확인할 수 있습니다.
+1. 집합 S를 set으로 변환 :
+S는 N개의 문자열로 이루어져 있습니다. 리스트 S를 set으로 변환하는 데 걸리는 시간은 O(N)입니다.
+
+2. M개의 문자열을 검색:
+각 문자열을 set에서 조회하는 시간 복잡도는 O(1)입니다. M개의 문자열을 조회하는 데 걸리는 시간은 O(M)입니다.
+
+따라서 전체 시간 복잡도는 N개의 초기 변환과 M개의 조회로 구성되어 O(N+M)니다
+"""
+
+
+
+
+def find_current_employees(log_entries):
+    current_employees = set()
+    
+    for entry in log_entries:
+        name, action = entry.split()
+        if action == "enter":
+            current_employees.add(name)
+        elif action == "leave":
+            current_employees.remove(name)
+    
+    return sorted(current_employees, reverse=True)
+
+# 입력 받기
+n = int(input().strip())
+log_entries = [input().strip() for _ in range(n)]
+
+# 현재 회사에 있는 사람들 출력
+current_employees = find_current_employees(log_entries)
+for employee in current_employees:
+    print(employee)
+"""
+1.
+log_entries = [
+    "Baha enter",
+    "Askar enter",
+    "Baha leave",
+    "Artem enter"
+]
+각 요소는 로그 기록의 한 줄로, "이름 동작" 형식의 문자열입니다. 이 리스트는 find_current_employees 함수에 전달되어 각 로그 기록을 처리하게 됩니다.
+
+2.
+entry = "Baha enter"
+entry = entry.strip()  # "Baha enter" (변화 없음)
+name, action = entry.split()  # name = "Baha", action = "enter"
+trip()은 문자열 양쪽 끝의 공백 문자를 제거할 뿐, 문자열 내부의 공백에는 영향을 주지 않습니다.
+"""
+
+
+
+
+def pokemon_master(N, M, pokemon_list, questions):
+    name_to_number = {}
+    number_to_name = {}
+
+    for i in range(1, N + 1):
+        name = pokemon_list[i - 1]
+        name_to_number[name] = i
+        number_to_name[i] = name
+
+    results = []
+    for question in questions:
+        if question.isdigit():
+            number = int(question)
+            results.append(number_to_name[number])
+        else:
+            results.append(str(name_to_number[question]))
+
+    return results
+
+# 입력 받기
+N, M = map(int, input().strip().split())
+pokemon_list = [input().strip() for _ in range(N)]
+questions = [input().strip() for _ in range(M)]
+
+# 결과 출력
+results = pokemon_master(N, M, pokemon_list, questions)
+for result in results:
+    print(result)
+"""
+name_to_number는 문자열(포켓몬 이름)을 키로 사용하여 해당 포켓몬의 번호에 접근하는 사전입니다.
+반면 number_to_name는 숫자(포켓몬 번호)를 키로 사용하여 해당 포켓몬의 이름에 접근하는 사전입니다.
+
+# 예제 데이터를 사용하여 사전들을 초기화합니다.
+name_to_number = {
+    "Bulbasaur": 1,
+    "Ivysaur": 2,
+    "Venusaur": 3,
+    # ... (중략)
+    "Raichu": 26
+}
+
+number_to_name = {
+    1: "Bulbasaur",
+    2: "Ivysaur",
+    3: "Venusaur",
+    # ... (중략)
+    26: "Raichu"
+}
+
+# 포켓몬 이름으로 번호를 찾는 예제
+pokemon_name = "Venusaur"
+pokemon_number = name_to_number[pokemon_name]  # 3
+
+# 포켓몬 번호로 이름을 찾는 예제
+pokemon_number = 3
+pokemon_name = number_to_name[pokemon_number]  # "Venusaur"
+"""
+isdigit() 메서드는 문자열이 모두 숫자로만 이루어져 있는지를 판단하는 함수입니다. 만약 문자열이 숫자로만 구성되어 있다면 True를 반환하고, 그렇지 않다면 False를 반환합니다.
+"""
+
+
+
+
+from collections import Counter
+
+def count_cards(n_cards, m_queries):
+    card_counter = Counter(n_cards)
+    
+    results = [card_counter[query] for query in m_queries]
+    
+    return results
+
+# 입력 받기
+N = int(input().strip())
+n_cards = list(map(int, input().strip().split()))
+M = int(input().strip())
+m_queries = list(map(int, input().strip().split()))
+
+# 숫자 카드 개수 세기 후 결과 출력
+results = count_cards(n_cards, m_queries)
+print(' '.join(map(str, results)))
+
+"""
+n_cards = [6, 3, 2, 10, 10, 10, -10, -10, 7, 3]
+card_counter = Counter(n_cards)
+
+print(card_counter) # Counter({10: 3, 3: 2, -10: 2, 6: 1, 2: 1, 7: 1})
+print(type(card_counter))  # <class 'collections.Counter'>
+
+Counter는 각 요소를 키로 사용하고, 그 요소가 리스트에서 몇 번 등장했는지를 값으로 저장합니다.
+card_counter의 자료형은 collections.Counter 객체입니다. 
+이 객체는 기본적으로 dict와 유사하지만, 요소의 개수를 자동으로 세어주는 추가 기능을 제공합니다.
+
+N과 M은 입력 형식에 포함된 정보로, 상근이가 가지고 있는 숫자 카드의 개수와 문제로 주어진 숫자의 개수를 나타냅니다. 
+그러나 코드의 실제 로직에서는 N과 M이 직접적으로 사용되지 않습니다. 입력 형식 상 반드시 포함되어야 할 뿐입니다. 
+"""
+
+
+
+
+
+def find_heard_and_seen(unheard_list, unseen_list):
+    unheard_set = set(unheard_list)
+    unseen_set = set(unseen_list)
+    
+    intersection = unheard_set & unseen_set
+    result_list = sorted(intersection)
+    
+    return result_list
+
+# 입력 받기
+N, M = map(int, input().strip().split())
+unheard_list = [input().strip() for _ in range(N)]
+unseen_list = [input().strip() for _ in range(M)]
+
+# 듣보잡 명단 구하기
+result_list = find_heard_and_seen(unheard_list, unseen_list)
+
+# 결과 출력
+print(len(result_list))
+for name in result_list:
+    print(name)
+
+"""
+A_size와 B_size는 입력 형식상 필요하지만, 코드 로직에서는 사용되지 않습니다.
+입력 데이터의 형식을 맞추기 위해 포함된 것입니다.
+예제 입력
+3 5
+1 2 4
+2 3 4 5 6
+"""
+
+
+
+
+def count_unique_substrings(S):
+    substrings = set()
+    
+    # 모든 부분 문자열을 생성하여 set에 추가
+    for i in range(len(S)):
+        for j in range(i + 1, len(S) + 1):
+            substrings.add(S[i:j])
+    
+    return len(substrings)
+
+# 입력 받기
+S = input().strip()
+
+# 서로 다른 부분 문자열의 개수 출력
+result = count_unique_substrings(S)
+print(result)
+
+"""
+i는 부분 문자열의 시작 인덱스를 나타냅니다.
+j는 부분 문자열의 끝 인덱스를 나타내며, S[i:j]는 시작 인덱스 i부터 끝 인덱스 j-1까지의 부분 문자열을 의미합니다.
+
+i = 0
+j = 1: S[0:1] = "a"
+j = 2: S[0:2] = "ab"
+j = 3: S[0:3] = "aba"
+j = 4: S[0:4] = "abab"
+j = 5: S[0:5] = "ababc"
+i = 1
+j = 2: S[1:2] = "b"
+j = 3: S[1:3] = "ba"
+j = 4: S[1:4] = "bab"
+j = 5: S[1:5] = "babc"
+i = 2
+j = 3: S[2:3] = "a"
+j = 4: S[2:4] = "ab"
+j = 5: S[2:5] = "abc"
+i = 3
+j = 4: S[3:4] = "b"
+j = 5: S[3:5] = "bc"
+i = 4
+j = 5: S[4:5] = "c"
+
+S[i:j]는 문자열 S에서 i번째 인덱스부터 j-1번째 인덱스까지의 연속된 부분 문자열을 의미합니다.
+파이썬에서 문자열 슬라이싱은 S[start:end] 형태로, start 인덱스에서 시작하여 end-1 인덱스까지의 부분 문자열을 반환합니다.
+"""
+
+
+
+
+import math
+
+def find_lcm(a, b):
+    return abs(a * b) // math.gcd(a, b)
+
+# 입력 받기
+T = int(input().strip())
+test_cases = [tuple(map(int, input().strip().split())) for _ in range(T)]
+
+# 각 테스트 케이스에 대해 최소공배수 구하기
+results = [find_lcm(a, b) for a, b in test_cases]
+
+# 결과 출력
+for result in results:
+    print(result)
+
+"""
+T개의 줄에서 각 테스트 케이스마다 두 수 A와 B를 입력받아 test_cases 리스트에 저장합니다.
+test_cases 리스트 안에 튜플의 형태로 정수들을 입력하는 이유는 각 테스트 케이스마다 두 개의 정수, 즉 A와 B가 주어지기 때문입니다 : 데이터 구조의 명확성, 편리한 접근
+
+for문을 사용할 때, test_cases 리스트에 튜플의 형태로 데이터가 저장되어 있기 때문에 각 튜플의 첫 번째 요소가 a에, 두 번째 요소가 b에 대입됩니다.
+이 방식은 파이썬의 언패킹(unpacking) 기능을 사용한 것입니다. test_cases 리스트의 각 요소가 (a, b) 형태의 튜플이기 때문에, 각 튜플이 순차적으로 a와 b 변수에 언패킹되어 대입됩니다.
+"""
+
+
+
+
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+def find_lcm(a, b):
+    return abs(a * b) // gcd(a, b)
+
+# 입력 받기
+a, b = map(int, input().strip().split())
+
+# 최소공배수 구하기
+result = find_lcm(a, b)
+
+# 결과 출력
+print(result)
+
+
+
+
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+def add_fractions(A, B, C, D):
+    numerator = A * D + C * B
+    denominator = B * D
+    common_divisor = gcd(numerator, denominator)
+    
+    # 기약분수로 만들기 위해 약분
+    numerator //= common_divisor
+    denominator //= common_divisor
+    
+    return numerator, denominator
+
+# 입력 받기
+A, B = map(int, input().strip().split())
+C, D = map(int, input().strip().split())
+
+# 분수의 합 구하기
+result_numerator, result_denominator = add_fractions(A, B, C, D)
+
+# 결과 출력
+print(result_numerator, result_denominator)
+
+
+
+
+import math
+from functools import reduce
+
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+def find_gcd_of_list(lst):
+    return reduce(gcd, lst)
+
+# 입력 받기
+N = int(input().strip())
+tree_positions = [int(input().strip()) for _ in range(N)]
+
+# 각 가로수 사이의 간격 계산
+intervals = [tree_positions[i+1] - tree_positions[i] for i in range(N-1)]
+
+# 간격들의 GCD 구하기
+gcd_of_intervals = find_gcd_of_list(intervals)
+
+# 필요한 가로수의 수 계산
+trees_needed = sum((interval // gcd_of_intervals) - 1 for interval in intervals)
+
+# 결과 출력
+print(trees_needed)
+
+"""
+reduce를 사용하여 리스트의 모든 요소에 대해 GCD를 구합니다.
+"""
+
+
+
+
+import sys
+import math
+
+def is_prime(num):
+    if num <= 1:
+        return False
+    if num <= 3:
+        return True
+    if num % 2 == 0 or num % 3 == 0:
+        return False
+    i = 5
+    while i * i <= num:
+        if num % i == 0 or num % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+
+def next_prime(n):
+    if n <= 1:
+        return 2
+    prime = n
+    found = False
+    while not found:
+        if is_prime(prime):
+            found = True
+        else:
+            prime += 1
+    return prime
+
+# 입력 받기
+input = sys.stdin.read
+data = input().strip().split()
+
+T = int(data[0])
+results = []
+
+for i in range(1, T + 1):
+    n = int(data[i])
+    results.append(next_prime(n))
+
+# 결과 출력
+for result in results:
+    print(result)
+
+"""
+문제
+정수 n(0 ≤ n ≤ 4*10^9)가 주어졌을 때, n보다 크거나 같은 소수 중 가장 작은 소수 찾는 프로그램을 작성하시오.
+
+소수를 확인하기 위해 에라토스테네스의 체를 사용할 수 있지만, 문제의 범위가 매우 크므로 직접 소수 판별 알고리즘을 사용하는 것이 적합합니다.
+2와 3은 예외적으로 먼저 처리합니다. 그 외의 숫자는 5부터 시작해 6k±1 형태로 증가하는 숫자로 나누어 떨어지는지 확인합니다.
+
+6k ± 1 형태의 숫자는 소수가 될 가능성이 있는 숫자들입니다. 이런 형태의 숫자가 소수가 아닌 경우를 처리하는 것이 필요합니다. 
+이 문제는 is_prime 함수 내에서 이미 처리되고 있습니다.
+
+소수 판별을 할 때 최대 sqrt(num)까지만 확인하면 됩니다. 
+그 이유는, 만약 num이 i로 나누어떨어진다면, num = i * j를 만족하는 어떤 j가 존재합니다. 여기서 i와 j 중 하나는 반드시 sqrt(num) 이하입니다. 
+
+    not_found = True
+    while not_found:
+        if is_prime(prime):
+            not_found = False
+     ▲ 이런 식으로 할 수도 있다.
+
+i = 7
+while i * i <= num:
+    if num % (i - 2) == 0 or num % i == 0:
+        return False
+와 같이 하면7 * 7 > 25이므로 while문의 조건을 만족하지 않아 루프가 실행되지 않습니다.
+따라서 25는 소수로 잘못 판별될 수 있다. 조건문이 애초에 성립하지 않아서 
+5와 7, 11과 13, 17과 19 등의 패턴을 검사하지 않게 되어 정확한 결과를 보장할 수 없습니다.
+"""
+
+
+
+
+def sieve_of_eratosthenes(M, N):
+    # N까지의 소수 판별을 위한 배열
+    is_prime = [True] * (N + 1)
+    is_prime[0] = is_prime[1] = False  # 0과 1은 소수가 아님
+    
+    p = 2
+    while p * p <= N:
+        if is_prime[p]:
+            for i in range(p * p, N + 1, p):
+                is_prime[i] = False # is_prime[p]가 True이면, p의 배수들을 모두 False로 설정합니다.
+        p += 1
+    
+    # M 이상 N 이하의 소수 출력
+    for num in range(M, N + 1):
+        if is_prime[num]:
+            print(num)
+
+# 입력 받기
+M, N = map(int, input().strip().split())
+
+# 소수 출력
+sieve_of_eratosthenes(M, N)
+
+"""
+p*p를 시작점으로 설정한 이유는, 그 이전의 배수들은 이미 다른 소수들에 의해 처리되었기 때문입니다.
+에라토스테네스의 체 알고리즘의 핵심 아이디어는 p가 소수일 때, p의 배수들을 제거하는 것입니다.
+p의 배수 중 p*2, p*3, ... , p*(p-1)는 이미 이전 소수들에 의해 처리되었습니다.
+
+예를 들어 p=5일 때, p*2 = 10, p*3 = 15, p*4 = 20은 이전의 소수인 p=2, 3에 의해 이미 다 소거됨.
+"""
+
+
+
+
+def sieve_of_eratosthenes(limit):
+    is_prime = [True] * (limit + 1)
+    is_prime[0] = is_prime[1] = False
+    
+    p = 2
+    while p * p <= limit:
+        if is_prime[p]:
+            for i in range(p * p, limit + 1, p):
+                is_prime[i] = False
+        p += 1
+    return is_prime
+
+def count_primes_in_range(n, is_prime):
+    count = 0
+    for num in range(n + 1, 2 * n + 1):
+        if is_prime[num]:
+            count += 1
+    return count
+
+# 미리 2 * 123456까지의 소수를 구해 놓음
+limit = 2 * 123456
+is_prime = sieve_of_eratosthenes(limit)
+
+# 입력 받기 및 처리
+import sys
+input = sys.stdin.read
+data = input().strip().split()
+
+results = []
+for n in map(int, data):
+    if n == 0:
+        break
+    results.append(count_primes_in_range(n, is_prime))
+
+# 결과 출력
+for result in results:
+    print(result)
+
+"""
+제한 : 1 ≤ n ≤ 123,456
+
+4. 입력 처리 및 결과 출력:
+표준 입력으로 여러 개의 테스트 케이스를 입력받습니다.
+각 테스트 케이스에 대해 범위 내의 소수 개수를 세어 results 리스트에 저장합니다.
+마지막에 results 리스트의 값을 순차적으로 출력합니다.
+
+1. 입력 받기:
+input = sys.stdin.read를 사용하여 표준 입력에서 모든 데이터를 한 번에 읽어옵니다.
+data = input().strip().split()를 통해 입력된 데이터를 공백 기준으로 분리하여 리스트 data에 저장합니다.
+
+2. 결과 계산 및 저장:
+for n in map(int, data) 루프는 data 리스트의 각 요소를 정수로 변환하여 순차적으로 처리합니다.
+각 n에 대해 count_primes_in_range(n, is_prime)를 호출하여 결과를 계산하고, results 리스트에 저장합니다.
+n이 0이면 루프를 종료합니다.
+
+data 리스트는 sys.stdin.read를 통해 모든 입력을 한 번에 읽어옵니다. 따라서, for 루프가 실행될 때는 이미 모든 입력이 data에 저장된 상태입니다.
+입력을 한 번에 모두 받기 때문에, 입력이 추가로 갱신될 수는 없습니다.
+data 리스트에는 0이 추가된 이후에도 계속적으로 정수가 포함될 수 있습니다. 그러나 for 루프에서 0을 인식하면 break 문을 통해 루프가 종료됩니다.
+
+표준 입력을 중단하는 방법으로는 EOF (End Of File) 신호를 사용하는 방법이 있습니다.
+이는 일반적으로 터미널이나 콘솔에서 Ctrl + D (유닉스 기반 시스템) 또는 Ctrl + Z (윈도우) 키 조합을 사용하여 입력을 종료하는 것입니다.
+
+# 입력 받기 및 처리
+results = []
+try:
+    while True:
+        line = input().strip()
+        if line == "0":
+            break
+        n = int(line)
+        results.append(count_primes_in_range(n, is_prime))
+except EOFError:
+    pass
+
+# 결과 출력
+for result in results:
+    print(result)
+"""
