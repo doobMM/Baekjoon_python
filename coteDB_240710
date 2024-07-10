@@ -1,7 +1,9 @@
 """
 240710
 스택 파일이 다소 날라감
+☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆ 아래 문제 복습 요망!! ☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
 """
+
 def can_receive_snack(n, students):
     stack = []
     current_number = 1
@@ -304,3 +306,49 @@ if __name__ == "__main__":
 
 
 
+
+"""
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+"""
+import sys
+from collections import deque
+
+input = sys.stdin.read
+queue = deque()
+commands = input().strip().split('\n')
+n = int(commands[0])
+
+output = []
+for i in range(1, n + 1):
+    command = commands[i]
+    
+    if command.startswith('push'):
+        _, num = command.split()
+        queue.append(int(num))
+    elif command == 'pop':
+        if queue:
+            output.append(queue.popleft())
+        else:
+            output.append(-1)
+    elif command == 'size':
+        output.append(len(queue))
+    elif command == 'empty':
+        output.append(0 if queue else 1)
+    elif command == 'front':
+        if queue:
+            output.append(queue[0])
+        else:
+            output.append(-1)
+    elif command == 'back':
+        if queue:
+            output.append(queue[-1])
+        else:
+            output.append(-1)
+
+sys.stdout.write('\n'.join(map(str, output)) + '\n')
+
+"""
+collections.deque는 양 끝에서 빠른 삽입과 삭제가 가능하여 큐 구현에 적합합니다.
+sys.stdin.read를 사용하여 한 번에 모든 입력을 받아옵니다. 이는 입력이 많을 때 효율적입니다.
+
+"""
