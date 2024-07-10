@@ -2,3 +2,305 @@
 240710
 스택 파일이 다소 날라감
 """
+def can_receive_snack(n, students):
+    stack = []
+    current_number = 1
+
+    for student in students:
+        while stack and stack[-1] == current_number:
+            stack.pop()
+            current_number += 1
+        
+        if student == current_number:
+            current_number += 1
+        else:
+            stack.append(student)
+
+    while stack and stack[-1] == current_number:
+        stack.pop()
+        current_number += 1
+
+    return "Nice" if current_number == n + 1 else "Sad"
+
+# 예제 입력
+n = 5
+students = [5, 4, 1, 3, 2]
+result = can_receive_snack(n, students)
+print(result)  # Nice
+
+"""
+1. 첫 번째 학생 번호: 5
+현재 스택: []
+current_number는 1
+5는 current_number와 일치하지 않음.
+5를 스택에 추가.
+결과: 스택 [5], current_number 1
+
+2. 두 번째 학생 번호: 4
+현재 스택: [5]
+current_number는 1
+4는 current_number와 일치하지 않음.
+4를 스택에 추가.
+결과: 스택 [5, 4], current_number 1
+
+3. 세 번째 학생 번호: 1
+현재 스택: [5, 4]
+current_number는 1
+1은 current_number와 일치함.
+current_number를 2로 증가.
+결과: 스택 [5, 4], current_number 2
+
+4. 네 번째 학생 번호: 3
+현재 스택: [5, 4]
+current_number는 2
+3는 current_number와 일치하지 않음.
+3를 스택에 추가.
+결과: 스택 [5, 4, 3], current_number 2
+
+5. 다섯 번째 학생 번호: 2
+현재 스택: [5, 4, 3]
+current_number는 2
+2는 current_number와 일치함.
+current_number를 3로 증가.
+결과: 스택 [5, 4, 3], current_number 3
+
+>>> 
+(for문 안의 while문이 실행되는 예)
+예제 0
+학생 번호 : [3, 2, 1, 4]
+
+예제 1
+학생 번호: [4, 3, 2, 1]
+1을 만나기 전 스택에 쌓인 4, 3, 2가 현재 필요한 번호와 일치하여 while문이 반복적으로 실행됩니다.
+
+예제 2
+학생 번호: [5, 1, 2, 3, 4]
+1을 만나기 전 스택에 5가 쌓이지만 1부터 4까지가 연속적으로 맞춰지면서 while문이 실행됩니다.
+"""
+
+
+
+
+def sieve_of_eratosthenes(max_num):
+    is_prime = [True] * (max_num + 1)
+    is_prime[0] = is_prime[1] = False
+
+    for i in range(2, int(max_num**0.5) + 1):
+        if is_prime[i]:
+            for j in range(i * i, max_num + 1, i):
+                is_prime[j] = False
+
+    primes = [i for i, prime in enumerate(is_prime) if prime]
+    return is_prime, primes
+
+def count_goldbach_partitions(n, is_prime):
+    count = 0
+    for i in range(2, n // 2 + 1):
+        if is_prime[i] and is_prime[n - i]:
+            count += 1
+    return count
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+
+    T = int(data[0])
+    test_cases = [int(data[i]) for i in range(1, T + 1)]
+    max_n = max(test_cases)
+
+    is_prime, primes = sieve_of_eratosthenes(max_n)
+
+    results = []
+    for n in test_cases:
+        results.append(count_goldbach_partitions(n, is_prime))
+
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+import math
+
+def count_open_windows(N):
+    # N 이하의 완전 제곱수의 개수를 구함
+    return int(math.isqrt(N))
+
+def main():
+    import sys
+    input = sys.stdin.read
+    N = int(input().strip())
+    
+    result = count_open_windows(N)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+import sys
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    
+    N = int(data[0])
+    commands = data[1:]
+    
+    stack = []
+    index = 0
+    results = []
+    
+    for _ in range(N):
+        command = commands[index]
+        if command == '1':
+            X = int(commands[index + 1])
+            stack.append(X)
+            index += 2
+        elif command == '2':
+            if stack:
+                results.append(stack.pop())
+            else:
+                results.append(-1)
+            index += 1
+        elif command == '3':
+            results.append(len(stack))
+            index += 1
+        elif command == '4':
+            if stack:
+                results.append(0)
+            else:
+                results.append(1)
+            index += 1
+        elif command == '5':
+            if stack:
+                results.append(stack[-1])
+            else:
+                results.append(-1)
+            index += 1
+    
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+def manage_money(K, numbers):
+    stack = []
+
+    for number in numbers:
+        if number == 0:
+            if stack:
+                stack.pop()
+        else:
+            stack.append(number)
+    
+    return sum(stack)
+
+# 입력 받기
+import sys
+input = sys.stdin.read
+data = input().split()
+
+K = int(data[0])
+numbers = list(map(int, data[1:]))
+
+# 결과 출력
+result = manage_money(K, numbers)
+print(result)
+
+
+
+
+
+def is_vps(ps):
+    stack = []
+    for char in ps:
+        if char == '(':
+            stack.append(char)
+        elif char == ')':
+            if stack:
+                stack.pop()
+            else:
+                return "NO"
+    if not stack:
+        return "YES"
+    else:
+        return "NO"
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+
+    T = int(data[0])
+    test_cases = data[1:]
+
+    results = []
+    for i in range(T):
+        result = is_vps(test_cases[i])
+        results.append(result)
+
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+def is_balanced(string):
+    stack = []
+    for char in string:
+        if char in "([":  # 여는 괄호를 만나면 스택에 추가
+            stack.append(char)
+        elif char == ')':  # 닫는 소괄호를 만나면
+            if stack and stack[-1] == '(':
+                stack.pop()  # 스택의 가장 최근 여는 소괄호와 짝을 이룸
+            else:
+                return "no"
+        elif char == ']':  # 닫는 대괄호를 만나면
+            if stack and stack[-1] == '[':
+                stack.pop()  # 스택의 가장 최근 여는 대괄호와 짝을 이룸
+            else:
+                return "no"
+    if not stack:
+        return "yes"  # 모든 괄호가 짝을 이루면
+    else:
+        return "no"  # 스택에 여는 괄호가 남아 있으면
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split('\n')
+
+    results = []
+    for line in data:
+        if line == '.':
+            break
+        results.append(is_balanced(line))
+
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
