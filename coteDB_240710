@@ -1,6 +1,4 @@
 """
-240710
-스택 파일이 다소 날라감
 ☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆ 아래 문제 복습 요망!! ☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
 """
 
@@ -83,7 +81,25 @@ current_number를 3로 증가.
 
 
 
-def sieve_of_eratosthenes(max_num):
+"""
+1. 
+  for i in range(2, int(100**0.5) + 1):  # range(2, 11)
+    if is_prime[i]:
+        for j in range(i * i, 101, i):
+            is_prime[j] = False
+i는 2부터 10까지 반복합니다.
+i = 2일 때, j는 4, 6, 8, 10, ..., 100까지 반복하며 is_prime[j]를 False로 설정합니다.
+i = 3일 때, j는 9, 12, 15, ..., 99까지 반복하며 is_prime[j]를 False로 설정합니다.
+이 과정을 10까지 반복합니다.
+
+2.
+sieve_of_eratosthenes 함수 내에서 primes 리스트는 is_prime 리스트에서 True 값을 가지는 인덱스들만을 모아서 생성됩니다. 이러한 인덱스들이 실제 소수입니다.
+enumerate(is_prime)는 is_prime 리스트의 인덱스와 값을 함께 순회합니다.
+
+3. 두 소수의 합이 n이 되려면, 작은 소수 a의 범위를 n // 2까지로 제한할 수 있습니다. 그 이후의 경우는 앞에서 이미 계산한 경우의 중복이 됩니다.
+"""
+
+ def sieve_of_eratosthenes(max_num):
     is_prime = [True] * (max_num + 1)
     is_prime[0] = is_prime[1] = False
 
@@ -102,7 +118,7 @@ def count_goldbach_partitions(n, is_prime):
             count += 1
     return count
 
-def main():
+  def main():
     import sys
     input = sys.stdin.read
     data = input().split()
@@ -144,11 +160,16 @@ def main():
 if __name__ == "__main__":
     main()
 
+"""
+각 창문은 그 창문 번호의 약수 개수만큼 열리고 닫힙니다. 예를 들어, 창문 번호가 12인 경우, 1, 2, 3, 4, 6, 12의 6개의 약수가 있으므로 6번 열리고 닫힙니다.
+창문이 마지막에 열려있기 위해서는 홀수번 열리고 닫혀야 합니다. 약수의 개수가 홀수인 경우는 완전 제곱수인 경우에만 해당합니다. 
+이 코드의 시간 복잡도는 O(1)이므로 매우 효율적입니다.
+"""
 
 
 
 
-import sys
+  import sys
 
 def main():
     input = sys.stdin.read
@@ -195,11 +216,21 @@ def main():
 if __name__ == "__main__":
     main()
 
+"""
+빈 리스트 stack을 스택으로 사용합니다.
+파이썬에는 기본적으로 스택 자료 구조를 위한 전용 클래스가 없습니다. 대신, 리스트(list)를 사용하여 스택의 기능을 구현합니다. 
+리스트는 스택의 기본 연산인 push와 pop을 지원합니다. push 연산은 리스트의 append 메서드로 구현되고, pop 연산은 리스트의 pop 메서드로 구현됩니다.
+파이썬의 리스트를 사용하여 스택을 구현하는 방법이 일반적이지만, 명확한 스택 연산을 원한다면 위와 같은 전용 클래스를 구현할 수 있습니다.
+
+stack.pop() 메서드는 스택의 가장 위에 있는 요소를 제거하고 그 값을 반환합니다. 따라서 이 반환된 값을 results.append()의 인수로 사용할 수 있습니다.
+예를 들어, 스택이 [3, 5]인 상태에서 stack.pop()을 호출하면 스택은 [3]이 되고, 반환된 5가 results.append(5)로 처리됩니다.
+"""
 
 
 
 
-def manage_money(K, numbers):
+
+  def manage_money(K, numbers):
     stack = []
 
     for number in numbers:
@@ -223,11 +254,27 @@ numbers = list(map(int, data[1:]))
 result = manage_money(K, numbers)
 print(result)
 
+"""
+  이 코드는 입력 크기가 최대 100,000까지 가능하므로, 효율적으로 작동할 수 있습니다.
+입력
+ 정수가 "0"일 경우에 지울 수 있는 수가 있음을 보장할 수 있다
+ 첫 번째 줄에 정수 K가 주어진다. (1 ≤ K ≤ 100,000)
+ 이후 K개의 줄에 정수가 1개씩 주어진다. 정수는 0에서 1,000,000 사이의 값을 가지며, 정수가 "0" 일 경우에는 가장 최근에 쓴 수를 지우고, 아닐 경우 해당 수를 쓴다.
+
+import sys
+
+# 표준 입력에서 입력을 읽어오기
+input_data = sys.stdin.read()
+
+# 표준 출력에 출력하기
+sys.stdout.write(input_data)
+"""
 
 
 
 
-def is_vps(ps):
+
+  def is_vps(ps):
     stack = []
     for char in ps:
         if char == '(':
@@ -261,6 +308,12 @@ def main():
 if __name__ == "__main__":
     main()
 
+"""
+스택을 사용하여 여는 괄호 (를 저장하고, 닫는 괄호 )를 만날 때마다 스택에서 가장 최근의 여는 괄호를 제거합니다.
+
+test_cases라는 list를 data란 list의 index=1부터의 자료로 갱신한다.
+for문에서는 0부터 T-1까지 test_cases라는 list를 순회하므로 잘 작동한다.
+"""
 
 
 
@@ -301,6 +354,18 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+첫번째 elif 안의 else에 해당되는 경우
+1. 스택이 비어 있는 경우: 
+  닫는 소괄호 )를 만났지만, 스택이 비어 있어 더 이상 짝을 맞출 여는 소괄호 (가 없는 경우입니다.
+2. 스택의 마지막 요소가 여는 소괄호 (가 아닌 경우: 
+  스택의 마지막 요소가 [인 경우입니다.
+
+break 문은 현재 실행 중인 루프를 즉시 종료시킵니다. 따라서, break가 실행되면 해당 루프의 나머지 코드는 실행되지 않습니다.
+results.append(is_balanced(line)):
+line이 '.'가 아닌 경우, is_balanced(line) 함수를 호출하여 line의 균형을 확인하고, 그 결과를 results 리스트에 추가합니다.
+"""
 
 
 
