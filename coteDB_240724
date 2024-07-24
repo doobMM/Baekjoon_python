@@ -1,1 +1,276 @@
+from itertools import permutations
 
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+    N = int(data[0])
+    M = int(data[1])
+    
+    nums = list(range(1, N + 1))
+    perms = permutations(nums, M)
+    
+    # Convert to list to print all permutations at once, 문제 풀이에는 불필요
+    perms_list = list(perms)
+    print(perms_list)  # [(1, 2, 3, 4), (1, 2, 4, 3), ... , (4, 3, 1, 2), (4, 3, 2, 1)]
+    
+    for perm in perms_list:
+        print(' '.join(map(str, perm)))
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+from itertools import combinations
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+    N = int(data[0])
+    M = int(data[1])
+    
+    nums = list(range(1, N + 1))
+    combs = combinations(nums, M)
+    
+    for comb in combs:
+        print(' '.join(map(str, comb)))
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+# 주어진 iterable의 데카르트 곱을 계산하여 모든 가능한 조합을 생성
+from itertools import product
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+    N = int(data[0])
+    M = int(data[1])
+    
+    nums = list(range(1, N + 1))
+    prod = product(nums, repeat=M)
+    
+    for p in prod:
+        print(' '.join(map(str, p)))
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+# 주어진 iterable에서 중복을 허용하는 조합
+from itertools import combinations_with_replacement
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+    N = int(data[0])
+    M = int(data[1])
+    
+    nums = list(range(1, N + 1))
+    combs = combinations_with_replacement(nums, M)
+    
+    for comb in combs:
+        print(' '.join(map(str, comb)))
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+def solve_n_queens(n):
+    def backtrack(row):
+        if row == n:
+            return 1
+        count = 0
+        for col in range(n):
+            if not (cols[col] or diag1[row - col + n - 1] or diag2[row + col]):
+                cols[col] = diag1[row - col + n - 1] = diag2[row + col] = True
+                count += backtrack(row + 1)
+                cols[col] = diag1[row - col + n - 1] = diag2[row + col] = False
+        return count
+    
+    cols = [False] * n
+    diag1 = [False] * (2 * n - 1)
+    diag2 = [False] * (2 * n - 1)
+    return backtrack(0)
+
+def main():
+    import sys
+    input = sys.stdin.read
+    N = int(input().strip())
+    print(solve_n_queens(N))
+
+if __name__ == "__main__":
+    main()
+
+"""
+cols[col]: col 열에 퀸이 있는지 여부.
+diag1[row - col]: 좌상향 대각선에 퀸이 있는지 여부.
+diag2[row + col]: 우상향 대각선에 퀸이 있는지 여부.
+
+요약
+backtrack 함수는 재귀적으로 호출되면서 각 행(row)에 퀸을 놓고, 가능한 경우의 수를 계산합니다. 
+count는 각 재귀 호출에서 가능한 배치의 개수를 누적하여 반환합니다.
+
+solve_n_queens(8)은 8x8 체스판에서 8개의 퀸을 놓는 모든 가능한 방법을 찾는 함수입니다.
+backtrack(row) 함수는 현재 행에 퀸을 놓고, 재귀적으로 다음 행으로 이동하여 모든 퀸을 배치하는 방법을 찾습니다.
+cols, diag1, diag2 배열을 사용하여 열과 대각선에 퀸이 있는지 빠르게 체크합니다.
+모든 퀸을 배치하는 경우 카운트를 증가시키고, 백트래킹을 통해 다른 가능한 배치를 탐색합니다.
+
+1. 첫 번째 행(row = 0)에서 퀸을 배치:
+예를 들어, col = 0에 퀸을 놓습니다.
+상태를 갱신: cols[0] = True, diag1[0 - 0 + 7] = True, diag2[0 + 0] = True
+backtrack(1)을 호출하여 두 번째 행으로 이동합니다.
+
+2. 두 번째 행(row = 1)에서 퀸을 배치:
+예를 들어, col = 2에 퀸을 놓습니다.
+상태를 갱신: cols[2] = True, diag1[1 - 2 + 7] = True, diag2[1 + 2] = True
+backtrack(2)을 호출하여 세 번째 행으로 이동합니다.
+
+3. 재귀 호출이 끝난 후 상태를 복구:
+backtrack(2)이 종료된 후, col = 2에 놓은 퀸을 제거합니다.
+상태를 복구: cols[2] = False, diag1[1 - 2 + 7] = False, diag2[1 + 2] = False
+이후 다른 열(col = 3 등)에 퀸을 놓는 것을 시도합니다.
+
+이 과정을 반복하여 모든 가능한 퀸 배치를 탐색하고, 각 경우의 수를 count에 누적하여 반환합니다.
+
+재귀 호출이 끝난 후 상태를 복구하는 이유는 백트래킹 알고리즘의 핵심입니다. 
+백트래킹은 해를 찾는 도중에 가능한 모든 경우를 탐색해야 하기 때문에, 한 경로를 탐색한 후 다른 경로를 탐색할 수 있도록
+상태를 원래대로 돌려놓아야 합니다. 
+"""
+
+
+
+
+
+# 시간초과
+def solve_sudoku(board):
+    rows = [set(range(1, 10)) for _ in range(9)]
+    cols = [set(range(1, 10)) for _ in range(9)]
+    boxes = [set(range(1, 10)) for _ in range(9)]
+    empty_cells = []
+
+    for r in range(9):
+        for c in range(9):
+            if board[r][c] == 0:
+                empty_cells.append((r, c))
+            else:
+                rows[r].remove(board[r][c])
+                cols[c].remove(board[r][c])
+                boxes[(r // 3) * 3 + (c // 3)].remove(board[r][c])
+
+    def backtrack(index):
+        if index == len(empty_cells):
+            return True               # 모든 빈 칸을 채운 경우 True를 반환합니다.
+        r, c = empty_cells[index]
+        box_index = (r // 3) * 3 + (c // 3)
+        for num in rows[r] & cols[c] & boxes[box_index]: # 현재 행, 열, 3x3 박스에서 가능한 숫자의 교집합을 구한
+            board[r][c] = num                            # 숫자를 배치하고 상태를 업데이트
+            rows[r].remove(num)
+            cols[c].remove(num)
+            boxes[box_index].remove(num)
+            if backtrack(index + 1):                     # 다음 빈 칸을 채우기 위해 재귀 호출, false가 반환되 밑의 복구 코드 실행됨
+                return True
+            board[r][c] = 0                              # 유효하지 않은 경우 숫자를 제거하고 상태를 복구
+            rows[r].add(num)
+            cols[c].add(num)
+            boxes[box_index].add(num)
+        return False
+
+    backtrack(0)
+    return board
+
+def print_board(board):
+    for row in board:
+        print(" ".join(map(str, row)))
+
+if __name__ == "__main__":
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+    board = []
+    for i in range(0, 81, 9):
+        board.append(list(map(int, data[i:i+9])))
+
+    solve_sudoku(board)
+    print_board(board)
+
+
+
+
+
+
+def calculate(a, b, operator):
+    if operator == 0:  # 덧셈
+        return a + b
+    elif operator == 1:  # 뺄셈
+        return a - b
+    elif operator == 2:  # 곱셈
+        return a * b
+    elif operator == 3:  # 나눗셈
+        if a < 0:
+            return -(-a // b)
+        return a // b
+
+def backtrack(index, current_value):
+    global max_value, min_value, operators
+
+    # 모든 숫자와 연산자를 사용했을 때 최댓값과 최솟값을 갱신
+    if index == N - 1:
+        max_value = max(max_value, current_value)
+        min_value = min(min_value, current_value)
+        return
+    # backtrack 함수 내에서 return이 갱신 파트에만 있는 것은 백트래킹의 효율성을 보장하기 위한 중요한 부분입니다.
+
+    # 가능한 모든 연산자를 시도
+    for i in range(4):
+        if operators[i] > 0:
+            # 연산자 사용
+            operators[i] -= 1
+            next_value = calculate(current_value, numbers[index + 1], i)
+            backtrack(index + 1, next_value)
+            # 상태 복구
+            operators[i] += 1
+
+def solve(N, numbers, operators):
+    global max_value, min_value
+    max_value = -float('inf')
+    min_value = float('inf')
+    backtrack(0, numbers[0])
+    return max_value, min_value
+
+if __name__ == "__main__":
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+
+    N = int(data[0])
+    numbers = list(map(int, data[1:N+1]))
+    operators = list(map(int, data[N+1:]))
+
+    max_val, min_val = solve(N, numbers, operators)
+    print(max_val)
+    print(min_val)
+
+"""
+가능한 모든 연산자 조합의 수: 𝑂(𝑁⋅4𝑁)로 표현할 수 있습니다.
+가능한 모든 연산자 조합의 수는 4^10 =1,048,576
+각 조합마다 최대 10개의 연산이 필요
+총 연산 수는 11⋅(4^10)=11,534,336
+"""
